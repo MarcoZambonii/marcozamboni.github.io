@@ -79,6 +79,8 @@ function Pill({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const pdfBasePath = `${import.meta.env.BASE_URL}pdfs/`;
+
   return (
     <div id="top" className="min-h-screen bg-black relative overflow-hidden">
       <GlowCursor />
@@ -111,21 +113,21 @@ export default function App() {
                 title: "Recovering the Risk‑Neutral Density Across Maturities",
                 desc: "Recovering risk-neutral densities from option prices using SVI volatility surface calibration and the Breeden–Litzenberger formula. Validated on synthetic data and applied to S&P 500 options.",
                 tags: [ "Python - TeX", "Options", "SVI", "Breeden–Litzenberger Formula"],
-                pdf: "/pdfs/Article.pdf",
+                pdf: `${pdfBasePath}Article.pdf`,
                 repo: "https://github.com/MarcoZambonii/Recovering_the-Risk-Neutral_Density"
               },
               {
                 title: "Probability Book",
                 desc: "A rewritten version of the Probability course for Mathematical Engineering at Politecnico di Milano, designed to present the core concepts of probability theory in a clear and structured way.",
                 tags: ["TeX", "Book", "PoliMi"],
-                pdf: "pdfs/Dispense_Probabilità.pdf",
+                pdf: `${pdfBasePath}Dispense_Probabilita.pdf`,
                 repo: "https://github.com/MarcoZambonii/Dispense-Probabilita"
               },
               {
                 title: "Theory-Driven vs Data-Driven Models: A Comparison in Demand Forecasting",
                 desc: "A study comparing theory-driven and data-driven approaches to demand forecasting, developed as an industry thesis project in collaboration with Politecnico di Milano.",
                 tags: ["Python - TeX", "PoliMi", "Demand Forecasting"],
-                pdf: "/pdfs/demand-forecast.pdf",
+                pdf: `${pdfBasePath}demand-forecast.pdf`,
                 repo: "https://github.com/marcozamboni/demand-forecast",
                 wip: true
               },
