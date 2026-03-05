@@ -1,11 +1,4 @@
-# Blackswan‑style One‑Page (Vite + React + Tailwind)
-
-A minimal one‑page site with a BlackswanQuants‑like aesthetic:
-- pitch black background
-- violet accent
-- outline hero word
-- glassy cards
-- anchored navbar
+# Personal Portfolio
 
 ## Run
 ```bash
