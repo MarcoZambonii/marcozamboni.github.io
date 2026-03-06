@@ -33,7 +33,7 @@ function useActiveSection(ids: string[]) {
 
 
 function GlowCursor() {
-  // subtle glow that follows mouse (keeps the Blackswan feel)
+  // subtle glow that follows mouse (keeps the feel)
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -80,6 +80,81 @@ function Pill({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const pdfBasePath = `${import.meta.env.BASE_URL}pdfs/`;
+  const [activeTimelineEvent, setActiveTimelineEvent] = useState(0);
+
+  const projects = [
+    {
+      title: "Recovering the Risk‑Neutral Density Across Maturities",
+      desc: "Recovering risk-neutral densities from option prices using SVI volatility surface calibration and the Breeden–Litzenberger formula. Validated on synthetic data and applied to S&P 500 options.",
+      tags: ["Python - TeX", "Options", "SVI", "Breeden–Litzenberger Formula"],
+      pdf: `${pdfBasePath}Article.pdf`,
+      repo: "https://github.com/MarcoZambonii/Recovering_the-Risk-Neutral_Density",
+      wip: false,
+    },
+    {
+      title: "Probability Book",
+      desc: "A rewritten version of the Probability course for Mathematical Engineering at Politecnico di Milano, designed to present the core concepts of probability theory in a clear and structured way.",
+      tags: ["TeX", "Book", "PoliMi"],
+      pdf: `${pdfBasePath}Dispense_Probabilita.pdf`,
+      repo: "https://github.com/MarcoZambonii/Dispense-Probabilita",
+      wip: false,
+    },
+    {
+      title: "Theory-Driven vs Data-Driven Models: A Comparison in Demand Forecasting",
+      desc: "A study comparing theory-driven and data-driven approaches to demand forecasting, developed as an industry thesis project in collaboration with Politecnico di Milano.",
+      tags: ["Python - TeX", "PoliMi", "Demand Forecasting"],
+      pdf: `${pdfBasePath}demand-forecast.pdf`,
+      repo: "https://github.com/marcozamboni/demand-forecast",
+      wip: true,
+    },
+    {
+      title: "Some fun with Jupiter nootbooks",
+      desc: "Collection of Jupyter notebooks exploring and testing various machine learning models applied to quantitative finance, with a focus on financial data analysis and the development of predictive approaches.",
+      tags: ["Python", "Jupyter notebooks"],
+      pdf: "",
+      repo: "https://github.com/MarcoZambonii/Fun_with_ML",
+      wip: false,
+    },
+  ];
+
+  const timelineEvents = [
+    {
+      date: "2025-09",
+      title: "Neural Nets Playground",
+      desc: "Esperimenti su modelli ML per serie temporali finanziarie e confronto tra architetture.",
+      photos: [
+        "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=80",
+      ],
+    },
+    {
+      date: "2025-11",
+      title: "Backtest Lab",
+      desc: "Strategie testate su dati storici con focus su drawdown, Sharpe e robustezza.",
+      photos: [
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1642543348745-778f5f00f3f5?auto=format&fit=crop&w=1400&q=80",
+      ],
+    },
+    {
+      date: "2026-01",
+      title: "Data Visualization",
+      desc: "Dashboard e grafici per capire pattern, outlier e cambi di regime di mercato.",
+      photos: [
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=1400&q=80",
+      ],
+    },
+    {
+      date: "2026-02",
+      title: "Feature Engineering Notes",
+      desc: "Pipeline di feature engineering per migliorare stabilita e performance dei modelli.",
+      photos: [
+        "https://images.unsplash.com/photo-1551281044-8b5bd5f4c4d9?auto=format&fit=crop&w=1400&q=80",
+        "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1400&q=80",
+      ],
+    },
+  ];
 
   return (
     <div id="top" className="min-h-screen bg-black relative overflow-hidden">
@@ -107,35 +182,14 @@ export default function App() {
             title={<>Some of my latest <span className="text-accent hover:glow transition">Projects</span>, take a look.</>}
           />
 
-          <div className="grid md:grid-cols-3 gap-4">
-            {[
-              {
-                title: "Recovering the Risk‑Neutral Density Across Maturities",
-                desc: "Recovering risk-neutral densities from option prices using SVI volatility surface calibration and the Breeden–Litzenberger formula. Validated on synthetic data and applied to S&P 500 options.",
-                tags: [ "Python - TeX", "Options", "SVI", "Breeden–Litzenberger Formula"],
-                pdf: `${pdfBasePath}Article.pdf`,
-                repo: "https://github.com/MarcoZambonii/Recovering_the-Risk-Neutral_Density"
-              },
-              {
-                title: "Probability Book",
-                desc: "A rewritten version of the Probability course for Mathematical Engineering at Politecnico di Milano, designed to present the core concepts of probability theory in a clear and structured way.",
-                tags: ["TeX", "Book", "PoliMi"],
-                pdf: `${pdfBasePath}Dispense_Probabilita.pdf`,
-                repo: "https://github.com/MarcoZambonii/Dispense-Probabilita"
-              },
-              {
-                title: "Theory-Driven vs Data-Driven Models: A Comparison in Demand Forecasting",
-                desc: "A study comparing theory-driven and data-driven approaches to demand forecasting, developed as an industry thesis project in collaboration with Politecnico di Milano.",
-                tags: ["Python - TeX", "PoliMi", "Demand Forecasting"],
-                pdf: `${pdfBasePath}demand-forecast.pdf`,
-                repo: "https://github.com/marcozamboni/demand-forecast",
-                wip: true
-              },
-
-            ].map((p) => (
+          <div className="grid md:grid-cols-2 gap-4">
+            {projects.map((p) => (
               <div
               key={p.title}
-              className={cn("card p-6 transition flex flex-col h-full", p.wip ? "hover:border-red-500/20" : "hover:border-white/20")}
+              className={cn(
+                "card p-6 transition flex flex-col h-full",
+                p.wip ? "hover:border-red-500/20" : "hover:border-white/20"
+              )}
               onMouseEnter={p.wip ? () => document.body.classList.add("cursor-red") : undefined}
               onMouseLeave={p.wip ? () => document.body.classList.remove("cursor-red") : undefined}
             >
@@ -169,31 +223,35 @@ export default function App() {
                   </div>
                 ) : (
                   <div className="mt-auto pt-8 flex justify-center gap-2">
-                    <a
-                      href={p.pdf}
-                      className="px-4 py-2 rounded-xl border border-white/12 text-white/75 hover:text-white hover:border-white/20 transition flex items-center gap-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <path d="M16 13h-4" />
-                        <path d="M14 11v4" />
-                      </svg>
-                      PDF
-                    </a>
-                    <a
-                      href={p.repo}
-                      className="px-4 py-2 rounded-xl border border-white/12 text-white/75 hover:text-white hover:border-white/20 transition flex items-center gap-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                      </svg>
-                      GitHub
-                    </a>
+                    {p.pdf ? (
+                      <a
+                        href={p.pdf}
+                        className="px-4 py-2 rounded-xl border border-white/12 text-white/75 hover:text-white hover:border-white/20 transition flex items-center gap-2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                          <polyline points="14 2 14 8 20 8" />
+                          <path d="M16 13h-4" />
+                          <path d="M14 11v4" />
+                        </svg>
+                        PDF
+                      </a>
+                    ) : null}
+                    {p.repo ? (
+                      <a
+                        href={p.repo}
+                        className="px-4 py-2 rounded-xl border border-white/12 text-white/75 hover:text-white hover:border-white/20 transition flex items-center gap-2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                        GitHub
+                      </a>
+                    ) : null}
                   </div>
                 )}
               </div>
@@ -203,27 +261,61 @@ export default function App() {
       </section>
 
       {/* EVENTS */}
-      <section id="events" className="relative z-10 pt-20 md:pt-28">
+      <section id="events" className="relative z-10 pt-20 md:pt-28 pb-20 md:pb-28">
         <div className="container-max">
           <SectionTitle
-            kicker="Events"
-            title="A simple timeline."
-            desc="Keep it short. Blackswan style is minimal."
+            kicker="Fun"
+            title={
+              <>
+                Sometimes I just have <span className="text-accent"> fun</span>, check it out!
+              </>
+            }
           />
 
-          <div className="card p-6">
-            <div className="space-y-5">
-              {[
-                { date: "2026‑04‑10", title: "Talk: Vol surfaces", where: "Milan" },
-                { date: "2026‑05‑02", title: "Workshop: RND extraction", where: "Online" },
-                { date: "2026‑06‑18", title: "Meetup: Quant tooling", where: "Amsterdam" },
-              ].map((e) => (
-                <div key={e.title} className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-white/85 font-medium">{e.title}</div>
-                    <div className="text-white/50 text-sm mt-1">{e.where}</div>
+          <div className="relative px-2 mt-20 md:mt-20">
+            <div className="absolute left-0 right-0 top-[35px] h-px bg-white/15" />
+            <div className="relative flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {timelineEvents.map((event, idx) => (
+                <button
+                  key={event.title}
+                  type="button"
+                  onMouseEnter={() => setActiveTimelineEvent(idx)}
+                  onFocus={() => setActiveTimelineEvent(idx)}
+                  onClick={() => setActiveTimelineEvent(idx)}
+                  className={cn(
+                    "min-w-[170px] md:min-w-0 md:flex-1 text-left transition-all duration-300 rounded-xl px-2 pt-0 pb-2",
+                    idx === activeTimelineEvent ? "opacity-100" : "opacity-70 hover:opacity-100"
+                  )}
+                >
+                  <div className="text-center mb-3">
+                    <div className="text-[11px] text-white/45">{event.date}</div>
                   </div>
-                  <div className="text-white/45 text-sm">{e.date}</div>
+                  <div
+                    className={cn(
+                      "relative z-10 mx-auto h-3.5 w-3.5 rounded-full border transition-all duration-300",
+                      idx === activeTimelineEvent
+                        ? "bg-white border-white shadow-[0_0_10px_rgba(255,255,255,0.55)]"
+                        : "bg-black border-white/40"
+                    )}
+                  />
+                  <div className="mt-3 text-center">
+                    <div className="mt-1 text-sm text-white/85">{event.title}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5 card p-5 md:p-6">
+            <div className="flex items-baseline justify-between gap-4">
+              <h3 className="text-white/90 font-medium">{timelineEvents[activeTimelineEvent].title}</h3>
+              <span className="text-xs text-white/45">{timelineEvents[activeTimelineEvent].date}</span>
+            </div>
+            <p className="mt-2 text-sm text-white/55">{timelineEvents[activeTimelineEvent].desc}</p>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {timelineEvents[activeTimelineEvent].photos.map((photo, idx) => (
+                <div key={`${timelineEvents[activeTimelineEvent].title}-${idx}`} className="overflow-hidden rounded-xl border border-white/10">
+                  <img src={photo} alt={`${timelineEvents[activeTimelineEvent].title} ${idx + 1}`} className="h-48 w-full object-cover" loading="lazy" />
                 </div>
               ))}
             </div>
